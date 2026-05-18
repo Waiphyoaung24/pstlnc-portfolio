@@ -1,17 +1,191 @@
 ---
+import { Image } from "astro:assets";
+import placeholder from "../assets/placeholder.jpg";
+import "../styles/global.css";
 
+const featured = [
+  { title: "Untitled I", year: "2026" },
+  { title: "Untitled II", year: "2026" },
+  { title: "Untitled III", year: "2025" },
+  { title: "Untitled IV", year: "2025" },
+];
 ---
 
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Photographs by pstlnc — a photographer portfolio." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>pstlnc — photography</title>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <Image
+          src={placeholder}
+          alt="Featured photograph"
+          widths={[400, 800, 1200]}
+          sizes="100vw"
+          loading="eager"
+          class="hero-image"
+        />
+        <div class="hero-overlay">
+          <h1>pstlnc</h1>
+          <p>Photographs of light, surface, and stillness.</p>
+        </div>
+      </section>
+
+      <section class="works" aria-labelledby="works-heading">
+        <h2 id="works-heading">Featured works</h2>
+        <ul class="grid">
+          {
+            featured.map((piece) => (
+              <li class="grid-item">
+                <Image
+                  src={placeholder}
+                  alt={piece.title}
+                  widths={[400, 600, 900]}
+                  sizes="(min-width: 768px) 45vw, 100vw"
+                  loading="lazy"
+                  class="grid-image"
+                />
+                <div class="caption">
+                  <span class="caption-title">{piece.title}</span>
+                  <span class="caption-year">{piece.year}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="about" aria-labelledby="about-heading">
+        <h2 id="about-heading">About</h2>
+        <p>
+          pstlnc is a photographer working in available light. Recent work has
+          focused on the texture of overlooked surfaces — a wall, a corner, a
+          window left open at dusk.
+        </p>
+      </section>
+
+      <section class="contact" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contact</h2>
+        <p>
+          For commissions, prints, or print sales:{" "}
+          <a href="mailto:hello@example.com">hello@example.com</a>
+        </p>
+      </section>
+    </main>
+
+    <style>
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+        padding-bottom: 5rem;
+      }
+
+      section {
+        padding-inline: var(--gutter);
+        max-width: var(--max-width);
+        margin-inline: auto;
+        width: 100%;
+      }
+
+      .hero {
+        position: relative;
+        padding: 0;
+        max-width: none;
+        height: 100vh;
+        min-height: 480px;
+        overflow: hidden;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        padding: var(--gutter);
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.55),
+          rgba(0, 0, 0, 0) 40%
+        );
+      }
+
+      .hero-overlay h1 {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        margin: 0;
+      }
+
+      .hero-overlay p {
+        color: var(--muted);
+        margin: 0;
+        max-width: 32ch;
+      }
+
+      .works h2,
+      .about h2,
+      .contact h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: 1.5rem;
+      }
+
+      .grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 768px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem;
+        }
+      }
+
+      .grid-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .grid-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
+        object-fit: cover;
+      }
+
+      .caption {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+
+      .about p {
+        max-width: 60ch;
+        color: var(--muted);
+      }
+
+      .contact p {
+        color: var(--muted);
+      }
+    </style>
+  </body>
 </html>
