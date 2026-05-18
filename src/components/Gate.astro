@@ -1,0 +1,172 @@
+---
+---
+<div id="gate-root" class="gate-root">
+  <img
+    class="gate-crest"
+    src="/brand assets/IMG_0698.jpg"
+    alt=""
+    draggable="false"
+  />
+  <form id="gate-form" autocomplete="off" novalidate>
+    <input
+      id="gate-input"
+      class="gate-input"
+      type="password"
+      name="p"
+      aria-label="passphrase"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+    />
+  </form>
+  <p class="gate-hint">no masters / no slaves</p>
+</div>
+
+<style>
+  .gate-root {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    transition: opacity 220ms ease;
+  }
+  .gate-crest {
+    max-height: 52vh;
+    max-width: min(80vw, 460px);
+    user-select: none;
+  }
+  #gate-form {
+    margin-top: 2.25rem;
+    margin-bottom: 0.9rem;
+  }
+  .gate-input {
+    width: min(280px, 70vw);
+    border: 0;
+    border-bottom: 1px solid rgba(245, 245, 245, 0.4);
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-align: center;
+    padding: 0.45rem 0;
+    outline: none;
+    transition: border-color 160ms ease;
+  }
+  .gate-input:focus {
+    border-bottom-color: var(--fg);
+  }
+  .gate-hint {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(245, 245, 245, 0.45);
+    margin: 0;
+  }
+  @keyframes gate-shake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-6px); }
+    40%      { transform: translateX(6px); }
+    60%      { transform: translateX(-4px); }
+    80%      { transform: translateX(2px); }
+  }
+  .gate-input.shake { animation: gate-shake 360ms ease-in-out; }
+  @media (prefers-reduced-motion: reduce) {
+    .gate-root, .gate-input { transition: none; }
+    .gate-input.shake { animation: none; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const ENC_B64 = "__ENC_PAYLOAD__";
+    const ITERATIONS = 250000;
+    const SALT_LEN = 16;
+    const IV_LEN = 12;
+
+    const root = document.getElementById("gate-root");
+    const form = document.getElementById("gate-form");
+    const input = document.getElementById("gate-input");
+
+    function shake() {
+      input.classList.remove("shake");
+      void input.offsetWidth;
+      input.classList.add("shake");
+      input.value = "";
+      input.focus();
+    }
+
+    function fromB64(s) {
+      const bin = atob(s);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return bytes;
+    }
+
+    async function deriveKey(pw, salt) {
+      const km = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(pw),
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+      );
+      return crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: salt, iterations: ITERATIONS, hash: "SHA-256" },
+        km,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["decrypt"]
+      );
+    }
+
+    function reveal(html) {
+      const onFadeOut = () => {
+        root.removeEventListener("transitionend", onFadeOut);
+        document.body.innerHTML = html;
+        const newRoot = document.body.firstElementChild;
+        if (newRoot) {
+          newRoot.style.opacity = "0";
+          newRoot.style.transition = "opacity 260ms ease";
+          requestAnimationFrame(() => {
+            newRoot.style.opacity = "1";
+          });
+        }
+        history.replaceState(null, "", "/");
+      };
+      root.addEventListener("transitionend", onFadeOut);
+      root.style.opacity = "0";
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        onFadeOut();
+      }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const pw = input.value;
+      if (!pw) return;
+      try {
+        if (!crypto || !crypto.subtle) throw new Error("no subtle");
+        const bytes = fromB64(ENC_B64);
+        const salt = bytes.slice(0, SALT_LEN);
+        const iv = bytes.slice(SALT_LEN, SALT_LEN + IV_LEN);
+        const ct = bytes.slice(SALT_LEN + IV_LEN);
+        const key = await deriveKey(pw, salt);
+        const plain = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: iv },
+          key,
+          ct
+        );
+        const html = new TextDecoder().decode(plain);
+        reveal(html);
+      } catch {
+        shake();
+      }
+    });
+
+    input.focus();
+  })();
+</script>
