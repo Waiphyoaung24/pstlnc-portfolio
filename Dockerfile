@@ -1,6 +1,6 @@
 FROM node:22-alpine AS build
 WORKDIR /app
-ENV SITE_PASSPHRASE=NOMOREMASTERS/NOMORESLAVES
+ENV SITE_PASSPHRASE=123123
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .

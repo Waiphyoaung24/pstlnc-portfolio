@@ -1,42 +1,178 @@
 ---
+const entries = [
+  { date: "26-05-19", title: "Atelier site, v3." },
+  { date: "26-04-02", title: "Capsule release." },
+  { date: "26-02-15", title: "Studio relaunch." },
+  { date: "25-12-01", title: "Year in review." },
+  { date: "25-10-22", title: "Brand system update." },
+  { date: "25-09-08", title: "Lookbook drop." },
+  { date: "25-07-14", title: "New work." },
+  { date: "25-05-30", title: "Process notes." },
+  { date: "25-04-11", title: "Field journal." },
+  { date: "25-02-26", title: "Edition no. 7." },
+  { date: "25-01-18", title: "Quiet release." },
+  { date: "24-11-30", title: "Archive opens." },
+  { date: "24-10-14", title: "Studio established." },
+];
 ---
-<div
-  style="
+<main class="page">
+  <header class="bar">
+    <a class="mark" href="/" aria-label="pstlnc — home">
+      <img
+        class="crest"
+        src="/brand assets/IMG_0685.jpg"
+        alt="pstlnc"
+        draggable="false"
+      />
+    </a>
+    <nav class="glyphs" aria-label="primary">
+      <button class="glyph" type="button" aria-label="grid">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.1" />
+        </svg>
+      </button>
+      <button class="glyph" type="button" aria-label="index">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <polygon points="12,4 21,20 3,20" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="miter" />
+        </svg>
+      </button>
+      <button class="glyph dot" type="button" aria-label="now">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="1.4" fill="currentColor" />
+        </svg>
+      </button>
+      <button class="glyph" type="button" aria-label="add">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
+          <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <section class="feed" aria-label="entries">
+    {entries.map((e) => (
+      <article class="entry">
+        <time class="d" datetime={`20${e.date}`}>{e.date}</time>
+        <h2 class="t">{e.title}</h2>
+      </article>
+    ))}
+  </section>
+</main>
+
+<style is:global>
+  html, body { background: #d8d8d8; color: #0c0c0c; }
+</style>
+
+<style>
+  .page {
+    --paper: #d8d8d8;
+    --ink: #0c0c0c;
+    --faint: #8e8e90;
     min-height: 100dvh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Times New Roman", Times, "Tinos", "Liberation Serif", serif;
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding:
+      max(1.5rem, env(safe-area-inset-top))
+      max(1.25rem, env(safe-area-inset-right))
+      max(2rem, env(safe-area-inset-bottom))
+      max(1.25rem, env(safe-area-inset-left));
+    box-sizing: border-box;
+  }
+
+  .bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 11rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .crest {
+    height: 2.4rem;
+    width: auto;
+    mix-blend-mode: multiply;
+    user-select: none;
+    -webkit-user-drag: none;
+    opacity: 0.96;
+  }
+
+  .glyphs {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: max(1.25rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) max(1.25rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
-    box-sizing: border-box;
-    background: #0e0e10;
-  "
->
-  <img
-    src="/brand assets/IMG_0685.jpg"
-    alt=""
-    draggable="false"
-    style="
-      max-height: 42vh;
-      max-width: min(70vw, 360px);
-      height: auto;
-      width: auto;
-      filter: invert(1);
-      opacity: 0.92;
-      user-select: none;
-      -webkit-user-drag: none;
-    "
-  />
-  <p
-    style="
-      margin-top: clamp(1rem, 4vh, 1.75rem);
-      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.25rem, 5vw, 1.6rem);
-      color: #f5f5f5;
-      letter-spacing: 0.04em;
-      opacity: 0.85;
-      text-align: center;
-      margin-bottom: 0;
-    "
-  >soon</p>
-</div>
+    gap: 1.05rem;
+    padding-top: 0.15rem;
+  }
+  .glyph {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--ink);
+    opacity: 0.78;
+    cursor: pointer;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+  .glyph svg { width: 100%; height: 100%; display: block; }
+  .glyph:hover { opacity: 1; transform: translateY(-1px); }
+  .glyph:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+  .glyph.dot { opacity: 0.65; }
+
+  .feed {
+    display: flex;
+    flex-direction: column;
+    gap: 1.85rem;
+    max-width: 38rem;
+  }
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .d {
+    font-size: 0.92rem;
+    color: var(--faint);
+    letter-spacing: 0.01em;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .t {
+    margin: 0;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.32;
+    letter-spacing: 0.005em;
+    color: var(--ink);
+  }
+
+  @media (min-width: 720px) {
+    .page {
+      padding-left: 2.25rem;
+      padding-right: 2.25rem;
+      padding-top: 2rem;
+    }
+    .crest { height: 2.6rem; }
+    .feed { gap: 2.1rem; max-width: 40rem; }
+    .t { font-size: 1.18rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glyph { transition: none; }
+    .glyph:hover { transform: none; }
+  }
+</style>

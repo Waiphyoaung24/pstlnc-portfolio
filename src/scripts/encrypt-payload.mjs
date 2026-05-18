@@ -37,8 +37,13 @@ if (!gateHtml.includes(PLACEHOLDER)) {
 const protectedHtml = await readFile(PROTECTED_PATH, "utf8");
 const bodyMatch = protectedHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
 if (!bodyMatch) die("could not extract <body> from protected page");
-const plaintext = bodyMatch[1].trim();
-if (!plaintext) die("protected page <body> is empty");
+// Astro hoists scoped CSS into <head><style>...</style></head>. The gate replaces
+// document.body.innerHTML on decrypt, so head styles would be lost. Capture them
+// and prepend to the body so they survive the swap.
+const styleMatches = [...protectedHtml.matchAll(/<style[^>]*>[\s\S]*?<\/style>/gi)];
+const styles = styleMatches.map((m) => m[0]).join("\n");
+const plaintext = `${styles}\n${bodyMatch[1].trim()}`;
+if (!bodyMatch[1].trim()) die("protected page <body> is empty");
 
 const payload = await encryptHtml(plaintext, passphrase);
 const updated = gateHtml.replace(PLACEHOLDER, payload);
