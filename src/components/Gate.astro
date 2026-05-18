@@ -18,7 +18,10 @@
       autocomplete="off"
       autocorrect="off"
       spellcheck="false"
+      inputmode="text"
+      enterkeyhint="go"
     />
+    <button type="submit" class="gate-submit" aria-hidden="true" tabindex="-1">go</button>
   </form>
 </div>
 
@@ -29,34 +32,59 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding:
+      max(1.25rem, env(safe-area-inset-top))
+      max(1.25rem, env(safe-area-inset-right))
+      max(1.25rem, env(safe-area-inset-bottom))
+      max(1.25rem, env(safe-area-inset-left));
+    box-sizing: border-box;
     background: var(--bg);
     transition: opacity 220ms ease;
   }
   .gate-crest {
     max-height: 52vh;
     max-width: min(80vw, 460px);
+    height: auto;
+    width: auto;
     user-select: none;
+    -webkit-user-drag: none;
   }
   #gate-form {
-    margin-top: 2.25rem;
+    margin-top: clamp(1.5rem, 6vh, 2.25rem);
     margin-bottom: 0.9rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   .gate-input {
-    width: min(280px, 70vw);
+    width: min(280px, 78vw);
+    min-height: 44px;
     border: 0;
     border-bottom: 1px solid rgba(245, 245, 245, 0.4);
     background: transparent;
     color: var(--fg);
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    /* 16px+ prevents iOS Safari from auto-zooming on focus */
+    font-size: 1rem;
     letter-spacing: 0.18em;
     text-align: center;
-    padding: 0.45rem 0;
+    padding: 0.75rem 0;
     outline: none;
     transition: border-color 160ms ease;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
   }
   .gate-input:focus {
     border-bottom-color: var(--fg);
+  }
+  .gate-submit {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
   }
   @keyframes gate-shake {
     0%, 100% { transform: translateX(0); }
@@ -66,6 +94,11 @@
     80%      { transform: translateX(2px); }
   }
   .gate-input.shake { animation: gate-shake 360ms ease-in-out; }
+  /* Landscape phones: short viewports — shrink crest so input stays in view */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .gate-crest { max-height: 60vh; max-width: min(50vw, 320px); }
+    #gate-form { margin-top: clamp(0.75rem, 3vh, 1.25rem); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .gate-root, .gate-input { transition: none; }
     .gate-input.shake { animation: none; }
