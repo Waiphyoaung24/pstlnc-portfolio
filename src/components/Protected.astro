@@ -1,98 +1,45 @@
 ---
-const entries = [
-  { date: "26-05-19", title: "Atelier site, v3." },
-  { date: "26-04-02", title: "Capsule release." },
-  { date: "26-02-15", title: "Studio relaunch." },
-  { date: "25-12-01", title: "Year in review." },
-  { date: "25-10-22", title: "Brand system update." },
-  { date: "25-09-08", title: "Lookbook drop." },
-  { date: "25-07-14", title: "New work." },
-  { date: "25-05-30", title: "Process notes." },
-  { date: "25-04-11", title: "Field journal." },
-  { date: "25-02-26", title: "Edition no. 7." },
-  { date: "25-01-18", title: "Quiet release." },
-  { date: "24-11-30", title: "Archive opens." },
-  { date: "24-10-14", title: "Studio established." },
+const works = [
+  "Atelier site, v3",
+  "Capsule release",
+  "Studio relaunch",
+  "Year in review",
+  "Brand system update",
+  "Lookbook drop",
+  "New work",
+  "Process notes",
+  "Field journal",
+  "Edition no. 7",
+  "Quiet release",
+  "Archive opens",
+  "Studio established",
 ];
 ---
-<header class="brandbar" role="banner">
-  <span class="brandbar__word">PROPAGANDA</span>
-</header>
-
 <main class="page">
-  <header class="bar">
-    <a class="mark" href="/" aria-label="pstlnc — home">
-      <img
-        class="crest"
-        src="/brand assets/IMG_0685.jpg"
-        alt="pstlnc"
-        draggable="false"
-      />
-    </a>
-    <nav class="glyphs" aria-label="primary">
-      <button class="glyph" type="button" aria-label="grid">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.1" />
-        </svg>
-      </button>
-      <button class="glyph" type="button" aria-label="index">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <polygon points="12,4 21,20 3,20" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="miter" />
-        </svg>
-      </button>
-      <button class="glyph dot" type="button" aria-label="now">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="1.4" fill="currentColor" />
-        </svg>
-      </button>
-      <button class="glyph" type="button" aria-label="add">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
-          <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
-        </svg>
-      </button>
-    </nav>
-  </header>
-
-  <section class="feed" aria-label="entries">
-    {entries.map((e) => (
-      <article class="entry">
-        <time class="d" datetime={`20${e.date}`}>{e.date}</time>
-        <h2 class="t">{e.title}</h2>
-      </article>
+  <ul class="works" aria-label="works">
+    {works.map((w) => (
+      <li class="work">{w}</li>
     ))}
-  </section>
+  </ul>
 </main>
 
 <style is:global>
-  html, body { background: #d8d8d8; color: #0c0c0c; margin: 0; }
-  .brandbar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #181614;
-    padding:
-      max(1rem, env(safe-area-inset-top))
-      max(1.25rem, env(safe-area-inset-right))
-      1rem
-      max(1.25rem, env(safe-area-inset-left));
-    text-align: center;
-    line-height: 1;
+  @font-face {
+    font-family: "PSTLNC Neue";
+    src:
+      local("Helvetica Neue"),
+      local("HelveticaNeue"),
+      url("/fonts/HelveticaNeue.ttc") format("truetype-collection"),
+      url("/fonts/HelveticaNeue.ttc") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
   }
-  .brandbar__word {
-    font-family: "Impact", "Haettenschweiler", "Arial Narrow Bold", "Oswald", "Helvetica Neue Condensed", sans-serif;
-    font-weight: 900;
-    font-size: clamp(1.85rem, 7vw, 2.75rem);
-    letter-spacing: 0.015em;
-    color: #e22e2e;
-    text-transform: uppercase;
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  @media (min-width: 720px) {
-    .brandbar { padding-top: max(1.15rem, env(safe-area-inset-top)); padding-bottom: 1.15rem; }
-    .brandbar__word { font-size: 2.6rem; letter-spacing: 0.02em; }
+
+  html, body {
+    background: #d8d8d8;
+    color: #0c0c0c;
+    margin: 0;
   }
 </style>
 
@@ -100,111 +47,47 @@ const entries = [
   .page {
     --paper: #d8d8d8;
     --ink: #0c0c0c;
-    --faint: #8e8e90;
     min-height: 100dvh;
     background: var(--paper);
     color: var(--ink);
-    font-family: "Times New Roman", Times, "Tinos", "Liberation Serif", serif;
-    font-feature-settings: "kern" 1, "liga" 1;
+    font-family: "PSTLNC Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding:
-      max(1.5rem, env(safe-area-inset-top))
+      max(2rem, env(safe-area-inset-top))
       max(1.25rem, env(safe-area-inset-right))
       max(2rem, env(safe-area-inset-bottom))
       max(1.25rem, env(safe-area-inset-left));
     box-sizing: border-box;
   }
 
-  .bar {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    min-height: 11rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .mark {
-    display: inline-flex;
-    align-items: center;
-    border: 0;
-    text-decoration: none;
-    color: inherit;
-  }
-  .crest {
-    height: 2.4rem;
-    width: auto;
-    mix-blend-mode: multiply;
-    user-select: none;
-    -webkit-user-drag: none;
-    opacity: 0.96;
-  }
-
-  .glyphs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.05rem;
-    padding-top: 0.15rem;
-  }
-  .glyph {
-    appearance: none;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    width: 1.05rem;
-    height: 1.05rem;
-    color: var(--ink);
-    opacity: 0.78;
-    cursor: pointer;
-    transition: opacity 160ms ease, transform 160ms ease;
-  }
-  .glyph svg { width: 100%; height: 100%; display: block; }
-  .glyph:hover { opacity: 1; transform: translateY(-1px); }
-  .glyph:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
-  .glyph.dot { opacity: 0.65; }
-
-  .feed {
-    display: flex;
-    flex-direction: column;
-    gap: 1.85rem;
-    max-width: 38rem;
-  }
-  .entry {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .d {
-    font-size: 0.92rem;
-    color: var(--faint);
-    letter-spacing: 0.01em;
-    font-variant-numeric: lining-nums tabular-nums;
-  }
-  .t {
+  .works {
     margin: 0;
-    font-family: inherit;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    width: 100%;
+    max-width: 44rem;
+  }
+
+  .work {
+    font-size: 1rem;
     font-weight: 400;
-    font-size: 1.1rem;
-    line-height: 1.32;
-    letter-spacing: 0.005em;
+    line-height: 1.85;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-variant-numeric: lining-nums tabular-nums;
     color: var(--ink);
   }
 
   @media (min-width: 720px) {
-    .page {
-      padding-left: 2.25rem;
-      padding-right: 2.25rem;
-      padding-top: 2rem;
+    .work {
+      font-size: 1.0625rem;
+      line-height: 1.95;
+      letter-spacing: 0.07em;
     }
-    .crest { height: 2.6rem; }
-    .feed { gap: 2.1rem; max-width: 40rem; }
-    .t { font-size: 1.18rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .glyph { transition: none; }
-    .glyph:hover { transform: none; }
   }
 </style>
