@@ -33,6 +33,8 @@ pnpm-debug.log*
 .playwright-mcp/
 gate-*.png
 protected-*.png
+before-*.jpg
+after-*.jpg
 
 # Superpowers / agent local caches
 .agents/
