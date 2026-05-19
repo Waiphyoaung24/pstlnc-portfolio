@@ -20,13 +20,6 @@ const works = [
 </header>
 
 <main class="page">
-  <section class="transmission" aria-label="transmission">
-    <h1 class="transmission-title">About The Collection</h1>
-    <p class="transmission-body">
-      Field record of <span class="redact">pstlnc</span> studio works, from <span class="redact">2024</span> to present. Selected entries <span class="redact">declassified</span> for review. Other titles <span class="redact">withheld</span>.
-    </p>
-  </section>
-
   <ul class="works" aria-label="works">
     {works.map((w) => (
       <li class="work">{w}</li>
@@ -111,35 +104,6 @@ const works = [
     box-sizing: border-box;
   }
 
-  .transmission {
-    width: 100%;
-    max-width: 32rem;
-    text-align: center;
-  }
-  .transmission-title {
-    margin: 0 0 1.1rem;
-    font-family: inherit;
-    font-size: 0.78rem;
-    font-weight: 400;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--ink);
-    opacity: 0.7;
-  }
-  .transmission-body {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-  }
-  .redact {
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    box-shadow: inset 0 0 0 1000px var(--ink);
-    color: var(--ink);
-  }
-
   .works {
     margin: 0;
     padding: 0;
@@ -164,13 +128,6 @@ const works = [
       font-size: 1.0625rem;
       line-height: 1.95;
       letter-spacing: 0.07em;
-    }
-    .transmission-title {
-      font-size: 0.82rem;
-      letter-spacing: 0.36em;
-    }
-    .transmission-body {
-      font-size: 1rem;
     }
   }
 </style>
