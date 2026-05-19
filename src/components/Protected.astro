@@ -15,6 +15,10 @@ const works = [
   "Studio established",
 ];
 ---
+<header class="brandbar" role="banner">
+  <span class="brandbar__word">PROPAGANDA</span>
+</header>
+
 <main class="page">
   <section class="transmission" aria-label="transmission">
     <h1 class="transmission-title">About The Collection</h1>
@@ -48,13 +52,47 @@ const works = [
     color: #0c0c0c;
     margin: 0;
   }
+
+  .brandbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #181614;
+    padding:
+      max(0.9rem, env(safe-area-inset-top))
+      max(1.25rem, env(safe-area-inset-right))
+      0.9rem
+      max(1.25rem, env(safe-area-inset-left));
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  }
+  .brandbar__word {
+    font-family: "Impact", "Haettenschweiler", "Arial Narrow Bold", "Oswald", "Helvetica Neue Condensed", sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.75rem, 6.5vw, 2.6rem);
+    letter-spacing: 0.018em;
+    color: #e22e2e;
+    text-transform: uppercase;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @media (min-width: 720px) {
+    .brandbar {
+      padding-top: max(1.05rem, env(safe-area-inset-top));
+      padding-bottom: 1.05rem;
+    }
+    .brandbar__word { font-size: 2.45rem; letter-spacing: 0.022em; }
+  }
 </style>
 
 <style>
   .page {
     --paper: #d8d8d8;
     --ink: #0c0c0c;
-    min-height: 100dvh;
+    --bar-h: 4.5rem;
+    min-height: calc(100dvh - var(--bar-h));
     background: var(--paper);
     color: var(--ink);
     font-family: "PSTLNC Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
