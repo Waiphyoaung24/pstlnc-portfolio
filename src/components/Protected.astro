@@ -15,6 +15,10 @@ const entries = [
   { date: "24-10-14", title: "Studio established." },
 ];
 ---
+<header class="brandbar" role="banner">
+  <span class="brandbar__word">PROPAGANDA</span>
+</header>
+
 <main class="page">
   <header class="bar">
     <a class="mark" href="/" aria-label="pstlnc — home">
@@ -61,7 +65,35 @@ const entries = [
 </main>
 
 <style is:global>
-  html, body { background: #d8d8d8; color: #0c0c0c; }
+  html, body { background: #d8d8d8; color: #0c0c0c; margin: 0; }
+  .brandbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #181614;
+    padding:
+      max(1rem, env(safe-area-inset-top))
+      max(1.25rem, env(safe-area-inset-right))
+      1rem
+      max(1.25rem, env(safe-area-inset-left));
+    text-align: center;
+    line-height: 1;
+  }
+  .brandbar__word {
+    font-family: "Impact", "Haettenschweiler", "Arial Narrow Bold", "Oswald", "Helvetica Neue Condensed", sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.85rem, 7vw, 2.75rem);
+    letter-spacing: 0.015em;
+    color: #e22e2e;
+    text-transform: uppercase;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @media (min-width: 720px) {
+    .brandbar { padding-top: max(1.15rem, env(safe-area-inset-top)); padding-bottom: 1.15rem; }
+    .brandbar__word { font-size: 2.6rem; letter-spacing: 0.02em; }
+  }
 </style>
 
 <style>
