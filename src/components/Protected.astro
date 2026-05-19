@@ -31,6 +31,9 @@ const works = [
   </svg>
 </header>
 
+<div id="smooth-wrapper">
+  <div id="smooth-content">
+
 <section class="about" aria-labelledby="about-heading">
   <h2 id="about-heading" class="about__eyebrow">About the Collection</h2>
 </section>
@@ -101,6 +104,47 @@ const works = [
   </svg>
 </footer>
 
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    function init() {
+      if (!window.gsap || !window.ScrollSmoother || !window.ScrollTrigger) return;
+      if (window.ScrollSmoother.get()) return;
+      if (!document.getElementById("smooth-wrapper")) return;
+      window.gsap.registerPlugin(window.ScrollTrigger, window.ScrollSmoother);
+      window.ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.2,
+        effects: true,
+        smoothTouch: 0.1,
+        normalizeScroll: true,
+      });
+    }
+
+    if (window.gsap && window.ScrollSmoother && window.ScrollTrigger) {
+      init();
+      return;
+    }
+
+    // Standalone render (dev /protected, no gate): bootstrap GSAP from CDN.
+    const cdn = "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/";
+    const libs = ["gsap.min.js", "ScrollTrigger.min.js", "ScrollSmoother.min.js"];
+    (function load(i) {
+      if (i >= libs.length) return init();
+      const s = document.createElement("script");
+      s.src = cdn + libs[i];
+      s.onload = () => load(i + 1);
+      s.onerror = () => load(i + 1);
+      document.head.appendChild(s);
+    })(0);
+  })();
+</script>
+
 <style is:global>
   @font-face {
     font-family: "PSTLNC Neue";
@@ -127,9 +171,13 @@ const works = [
     font-family: "PSTLNC Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
+  :root { --bar-h: 4.5rem; }
+
   .brandbar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
     background: #181614;
     padding:
@@ -140,6 +188,10 @@ const works = [
     text-align: center;
     line-height: 1;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  #smooth-content {
+    padding-top: var(--bar-h);
   }
   .brandbar__logo {
     display: inline-block;

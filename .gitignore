@@ -35,6 +35,7 @@ gate-*.png
 protected-*.png
 before-*.jpg
 after-*.jpg
+smoother-*.jpg
 
 # Superpowers / agent local caches
 .agents/
