@@ -28,3 +28,8 @@ pnpm-debug.log*
 
 # Superpowers brainstorm mockups
 .superpowers/
+
+# Playwright MCP session artifacts
+.playwright-mcp/
+gate-*.png
+protected-*.png
