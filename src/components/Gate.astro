@@ -6,12 +6,15 @@
     <img class="gate-mark" src="/brand assets/mini_logo_white_1.png" alt="" draggable="false" />
     <img class="gate-mark" src="/brand assets/mini_logo_white.png" alt="" draggable="false" />
   </div>
-  <img
-    class="gate-crest"
-    src="/brand assets/brand_logo.png"
-    alt=""
-    draggable="false"
-  />
+  <picture>
+    <source media="(min-width: 768px)" srcset="/brand assets/brand_logo_desktop.svg" />
+    <img
+      class="gate-crest"
+      src="/brand assets/brand_logo.svg"
+      alt=""
+      draggable="false"
+    />
+  </picture>
   <form id="gate-form" autocomplete="off" novalidate>
     <input
       id="gate-input"
@@ -66,10 +69,10 @@
     -webkit-user-drag: none;
   }
   .gate-crest {
+    width: min(80vw, 460px);
     max-height: 52vh;
-    max-width: min(80vw, 460px);
     height: auto;
-    width: auto;
+    object-fit: contain;
     user-select: none;
     -webkit-user-drag: none;
   }
