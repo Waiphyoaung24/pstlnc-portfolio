@@ -213,8 +213,10 @@
         content: "#smooth-content",
         smooth: 1.2,
         effects: true,
-        smoothTouch: 0.1,
+        // Match desktop smoothing on touch devices too.
+        smoothTouch: 1.2,
         normalizeScroll: true,
+        ignoreMobileResize: true,
       });
     }
 

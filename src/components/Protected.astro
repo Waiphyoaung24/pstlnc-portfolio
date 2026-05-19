@@ -60,7 +60,9 @@ const works = [
   </header>
   <ul class="works" aria-label="works">
     {works.map((w) => (
-      <li class="work">{w}</li>
+      <li class="work">
+        <a class="work__link" href="#">{w}</a>
+      </li>
     ))}
   </ul>
 </main>
@@ -121,10 +123,19 @@ const works = [
         content: "#smooth-content",
         smooth: 1.2,
         effects: true,
-        smoothTouch: 0.1,
+        // Match desktop smoothing on touch devices too.
+        smoothTouch: 1.2,
         normalizeScroll: true,
+        ignoreMobileResize: true,
       });
     }
+
+    // Keep placeholder hash-only anchors from triggering scroll/URL change
+    // while real destinations don't exist yet.
+    document.addEventListener("click", function (e) {
+      const a = e.target && e.target.closest && e.target.closest('a[href="#"]');
+      if (a) e.preventDefault();
+    });
 
     if (window.gsap && window.ScrollSmoother && window.ScrollTrigger) {
       init();
@@ -318,6 +329,51 @@ const works = [
     text-transform: uppercase;
     font-variant-numeric: lining-nums tabular-nums;
     color: var(--ink);
+  }
+
+  .work__link {
+    display: inline-block;
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 0;
+    padding: 0.55rem 0;
+    cursor: pointer;
+    transition: color 160ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .work__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.18rem;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .work__link:hover,
+  .work__link:focus-visible {
+    color: #ea242a;
+  }
+  .work__link:hover::after,
+  .work__link:focus-visible::after {
+    transform: scaleX(1);
+  }
+  .work__link:focus-visible {
+    outline: 2px solid #ea242a;
+    outline-offset: 4px;
+  }
+  .work__link:active {
+    transform: translateY(1px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .work__link,
+    .work__link::after {
+      transition: none;
+    }
   }
 
   @media (min-width: 720px) {
