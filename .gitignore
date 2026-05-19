@@ -33,3 +33,7 @@ pnpm-debug.log*
 .playwright-mcp/
 gate-*.png
 protected-*.png
+
+# Superpowers / agent local caches
+.agents/
+skills-lock.json
