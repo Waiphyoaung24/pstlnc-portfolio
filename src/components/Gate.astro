@@ -1,9 +1,14 @@
 ---
 ---
 <div id="gate-root" class="gate-root">
+  <div class="gate-marks" aria-hidden="true">
+    <img class="gate-mark" src="/brand assets/mini_logo_white_2.png" alt="" draggable="false" />
+    <img class="gate-mark" src="/brand assets/mini_logo_white_1.png" alt="" draggable="false" />
+    <img class="gate-mark" src="/brand assets/mini_logo_white.png" alt="" draggable="false" />
+  </div>
   <img
     class="gate-crest"
-    src="/brand assets/IMG_0698.jpg"
+    src="/brand assets/brand_logo.png"
     alt=""
     draggable="false"
   />
@@ -27,6 +32,7 @@
 
 <style>
   .gate-root {
+    position: relative;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
@@ -38,8 +44,26 @@
       max(1.25rem, env(safe-area-inset-bottom))
       max(1.25rem, env(safe-area-inset-left));
     box-sizing: border-box;
-    background: var(--bg);
+    background: #b52025;
     transition: opacity 220ms ease;
+  }
+  .gate-marks {
+    position: absolute;
+    top: max(0.75rem, env(safe-area-inset-top));
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 max(1.25rem, env(safe-area-inset-left)) 0 max(1.25rem, env(safe-area-inset-right));
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+  .gate-mark {
+    height: clamp(96px, 16vw, 144px);
+    width: auto;
+    user-select: none;
+    -webkit-user-drag: none;
   }
   .gate-crest {
     max-height: 52vh;
@@ -96,7 +120,8 @@
   .gate-input.shake { animation: gate-shake 360ms ease-in-out; }
   /* Landscape phones: short viewports — shrink crest so input stays in view */
   @media (orientation: landscape) and (max-height: 500px) {
-    .gate-crest { max-height: 60vh; max-width: min(50vw, 320px); }
+    .gate-crest { max-height: 52vh; max-width: min(46vw, 300px); }
+    .gate-mark { height: clamp(56px, 11vh, 88px); }
     #gate-form { margin-top: clamp(0.75rem, 3vh, 1.25rem); }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -148,6 +173,28 @@
       );
     }
 
+    async function runInsertedScripts() {
+      // <script> tags inserted via innerHTML do not execute. Re-create each as a
+      // fresh element so the browser evaluates it, awaiting external loads so
+      // ordering (e.g. jQuery -> plugin -> init) is preserved.
+      const scripts = Array.from(document.body.querySelectorAll("script"));
+      for (const old of scripts) {
+        const s = document.createElement("script");
+        for (const a of old.attributes) s.setAttribute(a.name, a.value);
+        if (old.src) {
+          const done = new Promise((resolve) => {
+            s.onload = resolve;
+            s.onerror = resolve;
+          });
+          old.replaceWith(s);
+          await done;
+        } else {
+          s.textContent = old.textContent;
+          old.replaceWith(s);
+        }
+      }
+    }
+
     function reveal(html) {
       const onFadeOut = () => {
         root.removeEventListener("transitionend", onFadeOut);
@@ -161,6 +208,7 @@
           });
         }
         history.replaceState(null, "", "/");
+        runInsertedScripts();
       };
       root.addEventListener("transitionend", onFadeOut);
       root.style.opacity = "0";
