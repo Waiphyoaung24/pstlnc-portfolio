@@ -36,7 +36,6 @@ const works = [
 
 <section class="about" aria-labelledby="about-heading">
   <h2 id="about-heading" class="about__eyebrow">About the Shop</h2>
-  <button id="test-toast-button" class="test-button" type="button">Hello world</button>
 </section>
 
 <section class="dossier" aria-label="dossier">
@@ -109,24 +108,6 @@ const works = [
 
   </div>
 </div>
-
-<div id="test-toast" class="test-toast" role="status" aria-live="polite" aria-atomic="true"></div>
-
-<script is:inline>
-  (function () {
-    const button = document.getElementById("test-toast-button");
-    const toast = document.getElementById("test-toast");
-    if (!button || !toast) return;
-    let timeout;
-    button.addEventListener("click", function () {
-      window.clearTimeout(timeout);
-      toast.textContent = "Hello world";
-      timeout = window.setTimeout(function () {
-        toast.textContent = "";
-      }, 3000);
-    });
-  })();
-</script>
 
 <script is:inline>
   (function () {
@@ -239,39 +220,6 @@ const works = [
 </style>
 
 <style>
-  .test-button {
-    margin-top: 1.25rem;
-    min-height: 44px;
-    padding: 0.65rem 1.75rem;
-    border: 1px solid #666;
-    border-radius: 4px;
-    background: #666;
-    color: #fff;
-    font: inherit;
-    cursor: pointer;
-  }
-  .test-button:hover { background: #555; }
-  .test-button:focus-visible {
-    outline: 2px solid #0c0c0c;
-    outline-offset: 4px;
-  }
-  .test-toast {
-    position: fixed;
-    bottom: max(1.5rem, env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    max-width: calc(100vw - 3rem);
-    padding: 0.875rem 1.5rem;
-    border-radius: 4px;
-    background: #0c0c0c;
-    color: #fff;
-    font-family: "PSTLNC Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    box-shadow: 0 4px 20px #0003;
-    pointer-events: none;
-  }
-  .test-toast:empty { opacity: 0; }
-
   .about {
     background: #d8d8d8;
     color: #0c0c0c;
