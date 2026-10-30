@@ -15,6 +15,7 @@ const works = [
   "How to Order",
   "For More Propaganda",
 ];
+const blackFrom = works.indexOf("LS Tee 1");
 ---
 <header class="brandbar" role="banner">
   <svg class="brandbar__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 935 1380 183" role="img" aria-label="PROPAGANDA">
@@ -33,6 +34,10 @@ const works = [
 
 <div id="smooth-wrapper">
   <div id="smooth-content">
+
+<section class="about" aria-labelledby="about-collection-heading">
+  <h1 id="about-collection-heading" class="about__eyebrow">About the Drop</h1>
+</section>
 
 <section class="dossier" aria-label="dossier">
   <img class="dossier__img" src="/brand%20assets/fixx.svg" alt="" loading="eager" decoding="async" />
@@ -55,8 +60,8 @@ const works = [
     <h2 id="subjects-heading" class="catalog-header__heading">Subjects :</h2>
   </header>
   <ul class="works" aria-label="works">
-    {works.map((w) => (
-      <li class="work">
+    {works.map((w, i) => (
+      <li class:list={["work", { "work--black": i >= blackFrom }]}>
         <a class="work__link" href="#">{w}</a>
       </li>
     ))}
@@ -167,7 +172,7 @@ const works = [
 
   html, body {
     background: #d8d8d8;
-    color: #0c0c0c;
+    color: #0000ff;
     margin: 0;
     font-family: "PSTLNC Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -218,7 +223,7 @@ const works = [
 <style>
   .about {
     background: #d8d8d8;
-    color: #0c0c0c;
+    color: #0000ff;
     font-family: "PSTLNC Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -235,7 +240,7 @@ const works = [
     font-weight: 500;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: #000000;
   }
   @media (min-width: 720px) {
     .about__eyebrow { font-size: 0.875rem; letter-spacing: 0.34em; }
@@ -262,7 +267,7 @@ const works = [
 
   .page {
     --paper: #d8d8d8;
-    --ink: #0c0c0c;
+    --ink: #0000ff;
     --bar-h: 4.5rem;
     background: var(--paper);
     color: var(--ink);
@@ -327,6 +332,15 @@ const works = [
     color: var(--ink);
   }
 
+  .work--black,
+  .work--black .work__link:hover,
+  .work--black .work__link:focus-visible {
+    color: #000000;
+  }
+  .work--black .work__link:focus-visible {
+    outline-color: #000000;
+  }
+
   .work__link {
     display: inline-block;
     position: relative;
@@ -352,14 +366,14 @@ const works = [
   }
   .work__link:hover,
   .work__link:focus-visible {
-    color: #ea242a;
+    color: #0000cc;
   }
   .work__link:hover::after,
   .work__link:focus-visible::after {
     transform: scaleX(1);
   }
   .work__link:focus-visible {
-    outline: 2px solid #ea242a;
+    outline: 2px solid #0000cc;
     outline-offset: 4px;
   }
   .work__link:active {
